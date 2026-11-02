@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VISTAS Market - Multi Product & Subcategories Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 antialiased min-h-screen flex flex-col">
+
+  <!-- TOP BAR -->
+  <div class="bg-slate-900 text-gray-300 text-xs px-4 py-1.5 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+      <span><i class="fa-solid fa-phone text-orange-400 mr-1"></i> <span id="topPhone">+94 11 234 5678</span></span>
+      <span><i class="fa-solid fa-envelope text-orange-400 mr-1"></i> <span id="topEmail">info@vistasmarket.lk</span></span>
+    </div>
+    <div class="flex items-center space-x-3">
+      <button id="adminLoginBtnNav" class="hover:text-white flex items-center space-x-1">
+        <i class="fa-solid fa-lock text-xs"></i>
+        <span>Admin Login</span>
+      </button>
+      <span>|</span>
+      <div id="userAuthSection" class="flex items-center space-x-2">
+        <button id="openAuthBtn" class="bg-orange-600 hover:bg-orange-700 text-white font-bold px-2.5 py-0.5 rounded text-[11px]">
+          Sign In / Sign Up
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <nav class="bg-orange-500 text-white shadow-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      <div class="flex items-center space-x-2 cursor-pointer" onclick="navigateTo('home')">
+        <i class="fa-solid fa-shop text-2xl"></i>
+        <div>
+          <h1 id="navStoreName" class="text-xl font-extrabold tracking-tight leading-none">VISTAS Market</h1>
+          <span class="text-[10px] text-orange-100 font-medium">Online Shopping Store</span>
+        </div>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-6 text-sm font-semibold">
+        <button onclick="navigateTo('home')" class="hover:text-orange-200 transition">Home</button>
+        <button onclick="navigateTo('catalog')" class="hover:text-orange-200 transition">All Products</button>
+        <button onclick="navigateTo('contact')" class="hover:text-orange-200 transition">Contact Us</button>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <div class="relative hidden sm:block w-60 lg:w-80">
+          <input type="text" id="searchInput" placeholder="Search product..." class="w-full pl-3 pr-8 py-1.5 rounded text-gray-800 text-xs focus:outline-none" />
+          <i class="fa-solid fa-magnifying-glass absolute right-2.5 top-2 text-gray-500 text-xs"></i>
+        </div>
+        <div class="relative cursor-pointer" id="cartIconBtn">
+          <i class="fa-solid fa-cart-shopping text-2xl"></i>
+          <span id="cartBadge" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center border border-orange-500">0</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4">
+
+    <!-- 1. HOME PAGE VIEW -->
+    <section id="pageHome" class="space-y-6">
+      <!-- Hero Banner -->
+      <div class="relative rounded-lg overflow-hidden shadow-md bg-gradient-to-r from-orange-600 to-amber-500 text-white p-8 md:p-12">
+        <div class="max-w-lg space-y-3">
+          <span class="bg-black/30 backdrop-blur-md px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider">Mega Store Sale</span>
+          <h2 id="heroTitle" class="text-3xl md:text-4xl font-extrabold">Welcome to VISTAS Market</h2>
+          <p id="heroSubtitle" class="text-sm text-orange-100">Your trusted online store with multi-categories & subcategories.</p>
+          <button onclick="navigateTo('catalog')" class="bg-white text-orange-600 font-bold px-5 py-2 rounded-md shadow hover:bg-orange-50 transition text-sm">
+            Shop All Products <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Categories & Subcategories List -->
+      <div>
+        <h3 class="font-bold text-gray-800 text-base mb-3 border-b pb-1">Browse Categories & Subcategories</h3>
+        <div id="homeCategoriesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <!-- Dynamically Populated -->
+        </div>
+      </div>
+
+      <!-- Flash Sale Items -->
+      <div>
+        <h3 class="font-bold text-gray-800 text-base mb-3 border-b pb-1">Flash Sale Items</h3>
+        <div id="flashSaleProductsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Dynamically Populated Products -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. CATALOG / ALL PRODUCTS VIEW -->
+    <section id="pageCatalog" class="hidden space-y-4">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h2 class="text-xl font-bold text-gray-800">All Available Products</h2>
+        <span id="productCountBadge" class="text-xs text-gray-500 font-semibold">0 Products</span>
+      </div>
+      <div id="allProductsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Dynamically Populated -->
+      </div>
+    </section>
+
+    <!-- 3. PRODUCT DETAIL PAGE (DARAZ STYLE VIEW) -->
+    <section id="pageProduct" class="hidden space-y-4">
+      <nav class="text-xs text-gray-500 flex items-center space-x-2 py-1">
+        <a href="#" onclick="navigateTo('home')" class="hover:underline">Home</a>
+        <span>&gt;</span>
+        <span id="bcCategory" class="hover:underline">Category</span>
+        <span>&gt;</span>
+        <span id="bcSubCategory" class="hover:underline">Subcategory</span>
+        <span>&gt;</span>
+        <span id="bcProductTitle" class="text-gray-800 font-semibold truncate">Product</span>
+      </nav>
+
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 grid grid-cols-1 md:grid-cols-12 gap-6 p-4">
+        <div class="md:col-span-4 flex flex-col items-center">
+          <div class="w-full aspect-square bg-gray-50 border border-gray-200 rounded-lg overflow-hidden flex items-center justify-center p-2 mb-3">
+            <img id="detailImg" src="" alt="Product" class="max-h-full max-w-full object-contain" />
+          </div>
+        </div>
+
+        <div class="md:col-span-5 space-y-4 border-b md:border-b-0 md:border-r border-gray-100 pr-0 md:pr-4">
+          <div class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-3 py-1.5 rounded flex justify-between items-center text-xs font-semibold">
+            <span><span class="bg-red-700 px-1 py-0.5 rounded text-[10px] font-bold">FLASH SALE</span> Ends in 16:30:40</span>
+            <span>12 sold</span>
+          </div>
+
+          <div>
+            <h2 id="detailTitle" class="text-xl font-bold text-gray-900 leading-tight">Product Title</h2>
+            <div class="flex items-center space-x-3 text-xs text-gray-500 mt-2">
+              <span class="text-amber-500"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+              <span>480 Ratings</span>
+              <span>|</span>
+              <div>Brand: <span id="detailBrand" class="text-blue-600 font-medium">Brand</span></div>
+            </div>
+          </div>
+
+          <div class="bg-orange-50 p-3 rounded border border-orange-100 space-y-1">
+            <div class="flex items-baseline space-x-3">
+              <span class="text-3xl font-extrabold text-orange-600">Rs. <span id="detailPrice">0</span></span>
+              <span class="text-sm text-gray-400 line-through">Rs. <span id="detailOldPrice">0</span></span>
+              <span id="detailDiscount" class="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-0.5 rounded">-0%</span>
+            </div>
+            <p class="text-xs text-orange-600">Min. spend Rs. 1,299</p>
+          </div>
+
+          <div class="flex items-center space-x-4 pt-2">
+            <span class="text-xs font-semibold text-gray-600">Quantity</span>
+            <div class="flex items-center border border-gray-300 rounded">
+              <button id="qtyMinus" class="px-3 py-1 bg-gray-100 text-gray-700 font-bold">-</button>
+              <span id="qtyVal" class="px-4 py-1 text-sm font-semibold">1</span>
+              <button id="qtyPlus" class="px-3 py-1 bg-gray-100 text-gray-700 font-bold">+</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <button id="buyNowBtn" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2.5 rounded shadow text-sm transition">Buy Now</button>
+            <button id="addToCartBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 rounded shadow text-sm transition">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- Shipping & Seller Info -->
+        <div class="md:col-span-3 space-y-4 text-xs">
+          <div class="border border-gray-200 rounded p-3 space-y-2 bg-gray-50">
+            <p class="font-bold text-gray-700">Delivery Options</p>
+            <p class="text-gray-800">Western, Colombo 01 - Fort</p>
+            <div class="flex justify-between items-center pt-1 border-t">
+              <span>Standard Delivery</span>
+              <span class="font-bold">Rs. <span id="displayDeliveryFee">305</span></span>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 space-y-2 bg-gray-50">
+            <p class="font-bold text-gray-700">Sold by</p>
+            <p id="displaySellerName" class="font-bold text-sm text-gray-900">VISTAS Flagship Store</p>
+            <div class="flex justify-between border-t pt-2">
+              <span>Rating</span>
+              <span class="font-bold">96%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CONTACT US VIEW -->
+    <section id="pageContact" class="hidden space-y-6">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 md:p-8 max-w-4xl mx-auto space-y-6">
+        <h2 class="text-2xl font-extrabold text-gray-900 border-b pb-2">Contact VISTAS Market</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="space-y-4">
+            <p class="text-sm text-gray-600">Contact our VISTAS Market customer care team.</p>
+            <div class="space-y-3 text-sm">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-location-dot text-orange-500"></i>
+                <span id="contactAddress">No. 123, VISTAS Tower, Colombo 03, Sri Lanka</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-phone text-orange-500"></i>
+                <span id="contactPhone">+94 11 234 5678</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-envelope text-orange-500"></i>
+                <span id="contactEmail">info@vistasmarket.lk</span>
+              </div>
+            </div>
+          </div>
+          <form id="contactForm" class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Your Name</label>
+              <input type="text" required class="w-full border rounded p-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Your Email</label>
+              <input type="email" required class="w-full border rounded p-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Message</label>
+              <textarea rows="3" required class="w-full border rounded p-2 text-sm outline-none"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded text-xs shadow">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. PROTECTED ADMIN PANEL VIEW -->
+    <section id="pageAdmin" class="hidden space-y-6">
+      <div class="bg-slate-800 text-white p-4 rounded-lg shadow-md flex justify-between items-center">
+        <div>
+          <h2 class="text-lg font-bold">VISTAS Store Management Panel</h2>
+          <p class="text-xs text-slate-300">මෙතැනින් New Product Add, Edit, Delete, Category & Subcategories සකසන්න.</p>
+        </div>
+        <button id="adminLogoutBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-2 rounded shadow text-xs">
+          Logout
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Add / Edit Product Form -->
+        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 space-y-3">
+          <h3 id="adminProductFormHeading" class="font-bold text-gray-800 border-b pb-2 flex justify-between items-center">
+            <span>1. Add New Product (නව භාණ්ඩයක් එක් කිරීම)</span>
+            <button id="resetProductFormBtn" class="text-xs text-orange-600 hover:underline hidden">Cancel Edit</button>
+          </h3>
+
+          <input type="hidden" id="adminEditingProductId" value="" />
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Product Title (භාණ්ඩයේ නම)</label>
+            <input type="text" id="adminProductTitle" required class="w-full border rounded p-2 text-sm outline-none" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Category</label>
+              <select id="adminProductCategorySelect" class="w-full border rounded p-2 text-sm outline-none">
+                <!-- Dynamically filled -->
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Subcategory</label>
+              <select id="adminProductSubcategorySelect" class="w-full border rounded p-2 text-sm outline-none">
+                <!-- Dynamically filled -->
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Price (Rs.)</label>
+              <input type="number" id="adminPrice" required class="w-full border rounded p-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Old Price (Rs.)</label>
+              <input type="number" id="adminOldPrice" class="w-full border rounded p-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Discount (%)</label>
+              <input type="text" id="adminDiscount" placeholder="-33%" class="w-full border rounded p-2 text-sm outline-none" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Brand</label>
+              <input type="text" id="adminBrand" placeholder="e.g. Velvet / Fashion" class="w-full border rounded p-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Image URL or File</label>
+              <input type="text" id="adminProductImgUrl" placeholder="Image URL..." class="w-full border rounded p-2 text-sm outline-none mb-1" />
+              <input type="file" id="adminImageFileInput" accept="image/*" class="text-xs text-gray-600 w-full" />
+            </div>
+          </div>
+
+          <button id="saveProductBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded text-xs shadow mt-2">
+            Save Product
+          </button>
+        </div>
+
+        <!-- Store General Settings & Delivery Fee -->
+        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 space-y-3">
+          <h3 class="font-bold text-gray-800 border-b pb-2">2. Store Settings & Bank Account Details</h3>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Standard Delivery Fee (Rs.)</label>
+            <input type="number" id="adminDeliveryFeeInput" value="305" class="w-full border rounded p-2 text-sm outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Bank Name (බැංකුවේ නම)</label>
+            <input type="text" id="adminBankName" placeholder="e.g. Commercial Bank" class="w-full border rounded p-2 text-sm outline-none" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Account Number</label>
+              <input type="text" id="adminAccNo" placeholder="800XXXXXXX" class="w-full border rounded p-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Account Name</label>
+              <input type="text" id="adminAccName" placeholder="VISTAS Store" class="w-full border rounded p-2 text-sm outline-none" />
+            </div>
+          </div>
+          <button id="saveStoreSettingsBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded text-xs shadow">
+            Save Store & Bank Settings
+          </button>
+        </div>
+
+        <!-- Add Category & Subcategory -->
+        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 space-y-4">
+          <h3 class="font-bold text-gray-800 border-b pb-2">3. Category & Subcategory Management</h3>
+
+          <!-- Add Category Form -->
+          <div class="space-y-2 bg-gray-50 p-3 rounded border">
+            <h4 class="text-xs font-bold text-gray-700">Add Main Category</h4>
+            <div class="flex gap-2">
+              <input type="text" id="newCatName" placeholder="Category Name (e.g. Fashion)" class="flex-1 border rounded p-1.5 text-xs outline-none" />
+              <button id="addNewCatBtn" class="bg-orange-500 text-white font-bold px-3 py-1.5 rounded text-xs hover:bg-orange-600">Add</button>
+            </div>
+          </div>
+
+          <!-- Add Subcategory Form -->
+          <div class="space-y-2 bg-gray-50 p-3 rounded border">
+            <h4 class="text-xs font-bold text-gray-700">Add Subcategory under Main Category</h4>
+            <div class="space-y-2">
+              <select id="parentCatSelect" class="w-full border rounded p-1.5 text-xs outline-none">
+                <!-- Dynamically Filled -->
+              </select>
+              <div class="flex gap-2">
+                <input type="text" id="newSubCatName" placeholder="Subcategory Name (e.g. Women's Bags)" class="flex-1 border rounded p-1.5 text-xs outline-none" />
+                <button id="addNewSubCatBtn" class="bg-blue-600 text-white font-bold px-3 py-1.5 rounded text-xs hover:bg-blue-700">Add Sub</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 space-y-3 md:col-span-2">
+          <h3 class="font-bold text-gray-800 border-b pb-2">4. All Managed Products</h3>
+          <div id="adminProductTableContainer" class="overflow-x-auto">
+            <table class="w-full text-xs text-left text-gray-600">
+              <thead class="bg-gray-100 text-gray-700 uppercase font-bold">
+                <tr>
+                  <th class="p-2">Image</th>
+                  <th class="p-2">Title</th>
+                  <th class="p-2">Category</th>
+                  <th class="p-2">Subcategory</th>
+                  <th class="p-2">Price</th>
+                  <th class="p-2">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminProductsTbody">
+                <!-- Dynamically filled -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BUY NOW / DIRECT CHECKOUT MODAL -->
+  <div id="buyNowModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-5 py-3 flex justify-between items-center shrink-0">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-bag-shopping text-lg"></i>
+          <h3 class="font-bold text-base">Direct Checkout (ඇණවුම් කරන්න)</h3>
+        </div>
+        <button id="closeBuyNowModal" class="text-white hover:text-cyan-200 font-bold text-lg">✕</button>
+      </div>
+
+      <!-- Content -->
+      <div class="p-5 overflow-y-auto space-y-4 flex-1">
+        <!-- Selected Product Summary Card -->
+        <div class="bg-cyan-50/70 border border-cyan-200 rounded-lg p-3 flex space-x-3 items-center">
+          <img id="buyNowThumb" src="" alt="Product" class="w-16 h-16 object-contain bg-white rounded p-1 border" />
+          <div class="flex-1 text-xs space-y-1">
+            <p id="buyNowProdTitle" class="font-bold text-gray-800 line-clamp-2">Product Title</p>
+            <div class="flex justify-between items-center text-gray-600">
+              <span>Qty: <span id="buyNowProdQty" class="font-bold text-gray-900">1</span></span>
+              <span class="font-extrabold text-cyan-700 text-sm">Rs. <span id="buyNowProdSubtotal">0</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Form -->
+        <form id="buyNowOrderForm" class="space-y-3 text-xs">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">Full Name (ඔබේ නම) *</label>
+            <input type="text" id="buyNowName" required placeholder="Ex: Nimal Perera" class="w-full border rounded p-2 text-sm outline-none focus:ring-2 focus:ring-cyan-500" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-gray-700 mb-1">Phone Number (දුරකථන අංකය) *</label>
+              <input type="tel" id="buyNowPhone" required placeholder="07X XXXXXXX" class="w-full border rounded p-2 text-sm outline-none focus:ring-2 focus:ring-cyan-500" />
+            </div>
+            <div>
+              <label class="block font-bold text-gray-700 mb-1">Payment Method *</label>
+              <select id="buyNowPayment" class="w-full border rounded p-2 text-sm outline-none bg-white font-medium">
+                <option value="cod">Cash on Delivery (භාණ්ඩ ලැබුණු පසු මුදල් ගෙවන්න)</option>
+                <option value="bank">Direct Bank Transfer (බැංකු ගිණුමට මුදල් තැන්පත් කිරීම)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bank Details Display Box -->
+          <div id="bankDetailsBox" class="hidden bg-amber-50 border border-amber-300 rounded p-3 text-xs space-y-1">
+            <p class="font-bold text-amber-800"><i class="fa-solid fa-university mr-1"></i> Bank Account Information:</p>
+            <p>Bank: <span id="payBankName" class="font-semibold">Commercial Bank</span></p>
+            <p>Account No: <span id="payAccNo" class="font-semibold">8001234567</span></p>
+            <p>Account Name: <span id="payAccName" class="font-semibold">VISTAS Market Store</span></p>
+            <p class="text-[10px] text-amber-700 pt-1">* මුදල් තැන්පත් කර Slip පත 0712345678 අංකයට WhatsApp කරන්න.</p>
+          </div>
+
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">Delivery Address (ලැබිය යුතු ලිපිනය) *</label>
+            <textarea id="buyNowAddress" rows="2" required placeholder="House No, Street Name, City, District" class="w-full border rounded p-2 text-sm outline-none focus:ring-2 focus:ring-cyan-500"></textarea>
+          </div>
+
+          <!-- Total Calculations breakdown -->
+          <div class="bg-gray-50 p-3 rounded-lg border space-y-1 text-xs">
+            <div class="flex justify-between text-gray-600">
+              <span>Items Total:</span>
+              <span>Rs. <span id="buyNowBreakdownItem">0</span></span>
+            </div>
+            <div class="flex justify-between text-gray-600">
+              <span>Delivery Fee (Standard):</span>
+              <span>Rs. <span id="buyNowBreakdownDelivery">305</span></span>
+            </div>
+            <div class="flex justify-between font-extrabold text-sm text-gray-900 border-t pt-1 mt-1">
+              <span>Final Total to Pay:</span>
+              <span class="text-orange-600">Rs. <span id="buyNowBreakdownTotal">0</span></span>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 rounded-lg text-sm shadow transition uppercase tracking-wider flex justify-center items-center space-x-2">
+            <i class="fa-solid fa-check-circle text-base"></i>
+            <span>Confirm Order Now</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER AUTH MODAL -->
+  <div id="authModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-sm w-full p-6 space-y-4 relative">
+      <button id="closeAuthModal" class="absolute top-3 right-3 text-gray-400 font-bold">✕</button>
+      <div class="flex border-b text-sm font-bold">
+        <button id="tabSignIn" class="w-1/2 pb-2 text-orange-600 border-b-2 border-orange-600">Sign In</button>
+        <button id="tabSignUp" class="w-1/2 pb-2 text-gray-400">Sign Up</button>
+      </div>
+      <form id="signInForm" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Email</label>
+          <input type="email" required class="w-full border rounded p-2 text-sm outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Password</label>
+          <input type="password" required class="w-full border rounded p-2 text-sm outline-none" />
+        </div>
+        <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded text-xs shadow">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN LOGIN MODAL -->
+  <div id="adminModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-sm w-full p-6 space-y-4 relative">
+      <button id="closeAdminModal" class="absolute top-3 right-3 text-gray-400 font-bold">✕</button>
+      <div class="text-center">
+        <i class="fa-solid fa-lock text-3xl text-slate-700 mb-1"></i>
+        <h3 class="font-bold text-gray-800">VISTAS Admin Authentication</h3>
+        <p class="text-xs text-gray-500">මුරපදය ඇතුළත් කරන්න (Default: admin123)</p>
+      </div>
+      <form id="adminLoginForm" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Admin Password</label>
+          <input type="password" id="adminPasswordInput" required class="w-full border rounded p-2 text-sm outline-none" placeholder="admin123" />
+        </div>
+        <p id="adminError" class="text-xs text-red-600 hidden font-semibold">මුරපදය වැරදියි!</p>
+        <button type="submit" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 rounded text-xs shadow">Unlock Admin Panel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-y-0 right-0 w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 p-4 flex flex-col justify-between">
+    <div>
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-gray-800">Your Shopping Cart</h3>
+        <button id="closeCartBtn" class="text-gray-500 font-bold">✕</button>
+      </div>
+      <div id="cartItems" class="py-4 space-y-3">
+        <p class="text-xs text-gray-400 text-center py-8">Your cart is currently empty</p>
+      </div>
+    </div>
+    <div class="border-t pt-3 space-y-3">
+      <div class="flex justify-between font-bold text-sm">
+        <span>Total:</span>
+        <span class="text-orange-600">Rs. <span id="cartTotal">0</span></span>
+      </div>
+      <button class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded shadow text-xs uppercase">Checkout</button>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Initial App State
+    const defaultCategories = [
+      { name: "Health & Beauty", icon: "fa-pump-soap", subs: ["Bath & Body", "Skin Care", "Hair Care"] },
+      { name: "Women's Fashion", icon: "fa-bag-shopping", subs: ["Bags & Purses", "Clothing", "Shoes"] },
+      { name: "Electronics", icon: "fa-mobile-screen", subs: ["Mobile Phones", "Accessories", "Audio"] },
+      { name: "Home & Lifestyle", icon: "fa-house-laptop", subs: ["Kitchenware", "Decor", "Bedding"] }
+    ];
+
+    const defaultProducts = [
+      {
+        id: "prod_1",
+        title: "Velvet Body Wash - Black Orchid & Hibiscus 140Ml",
+        category: "Health & Beauty",
+        subcategory: "Bath & Body",
+        price: 249,
+        oldPrice: 370,
+        discount: "-33%",
+        brand: "Velvet",
+        img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: "prod_2",
+        title: "Lady Leather Handbag - Beige Shoulder Bag",
+        category: "Women's Fashion",
+        subcategory: "Bags & Purses",
+        price: 249,
+        oldPrice: 370,
+        discount: "-33%",
+        brand: "VISTAS Collection",
+        img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    let categories = JSON.parse(localStorage.getItem("vistasCategories")) || defaultCategories;
+    let products = JSON.parse(localStorage.getItem("vistasProducts")) || defaultProducts;
+
+    let storeSettings = JSON.parse(localStorage.getItem("vistasStoreSettings")) || {
+      deliveryFee: 305,
+      bankName: "Commercial Bank",
+      accNo: "8001234567",
+      accName: "VISTAS Market Store"
+    };
+
+    let isAdminLoggedIn = false;
+    let selectedProductForDetail = null;
+    let quantity = 1;
+    let cartCount = 0;
+    let cartTotal = 0;
+
+    // Navigation Switcher
+    function navigateTo(pageId, extraData = null) {
+      document.getElementById("pageHome").classList.add("hidden");
+      document.getElementById("pageCatalog").classList.add("hidden");
+      document.getElementById("pageProduct").classList.add("hidden");
+      document.getElementById("pageContact").classList.add("hidden");
+      document.getElementById("pageAdmin").classList.add("hidden");
+
+      if (pageId === 'home') document.getElementById("pageHome").classList.remove("hidden");
+      if (pageId === 'catalog') {
+        renderCatalogPage();
+        document.getElementById("pageCatalog").classList.remove("hidden");
+      }
+      if (pageId === 'contact') document.getElementById("pageContact").classList.remove("hidden");
+      if (pageId === 'product') {
+        if (extraData) renderProductDetailPage(extraData);
+        document.getElementById("pageProduct").classList.remove("hidden");
+      }
+      if (pageId === 'admin') {
+        if (isAdminLoggedIn) {
+          document.getElementById("pageAdmin").classList.remove("hidden");
+          renderAdminPanel();
+        } else {
+          document.getElementById("adminModal").classList.remove("hidden");
+        }
+      }
+    }
+
+    // Render Home Page
+    function renderHomePage() {
+      // Categories Grid
+      const catBox = document.getElementById("homeCategoriesGrid");
+      if (catBox) {
+        catBox.innerHTML = "";
+        categories.forEach(cat => {
+          catBox.innerHTML += `
+            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 space-y-2">
+              <div class="flex items-center space-x-2 border-b pb-2">
+                <i class="fa-solid ${cat.icon || 'fa-tag'} text-orange-500 text-lg"></i>
+                <h4 class="font-bold text-sm text-gray-800">${cat.name}</h4>
+              </div>
+              <div class="flex flex-wrap gap-1 text-[11px]">
+                ${cat.subs.map(sub => `<span class="bg-orange-50 text-orange-700 px-2 py-0.5 rounded cursor-pointer hover:bg-orange-100" onclick="navigateTo('catalog')">${sub}</span>`).join('')}
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      // Flash Sale Products
+      const flashBox = document.getElementById("flashSaleProductsGrid");
+      if (flashBox) {
+        flashBox.innerHTML = "";
+        products.forEach(p => {
+          flashBox.innerHTML += renderProductCardHTML(p);
+        });
+      }
+    }
+
+    // Render Catalog
+    function renderCatalogPage() {
+      const grid = document.getElementById("allProductsGrid");
+      if (grid) {
+        grid.innerHTML = "";
+        products.forEach(p => {
+          grid.innerHTML += renderProductCardHTML(p);
+        });
+      }
+      const badge = document.getElementById("productCountBadge");
+      if (badge) badge.innerText = `${products.length} Products`;
+    }
+
+    function renderProductCardHTML(p) {
+      return `
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col justify-between hover:shadow-md transition">
+          <div class="relative">
+            <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">${p.discount || '-33%'}</span>
+            <img src="${p.img}" alt="${p.title}" class="w-full h-44 object-contain mb-2 rounded" />
+          </div>
+          <div class="space-y-1">
+            <h4 class="text-xs font-bold text-gray-800 line-clamp-2">${p.title}</h4>
+            <div class="flex items-baseline space-x-2">
+              <span class="text-orange-600 font-extrabold text-sm">Rs. ${p.price}</span>
+              ${p.oldPrice ? `<span class="text-gray-400 text-[10px] line-through">Rs. ${p.oldPrice}</span>` : ''}
+            </div>
+          </div>
+          <button onclick="viewProductDetail('${p.id}')" class="w-full mt-3 bg-orange-500 hover:bg-orange-600 text-white font-bold py-1.5 rounded text-xs transition">
+            View Details
+          </button>
+        </div>
+      `;
+    }
+
+    // View Product Detail
+    window.viewProductDetail = function(productId) {
+      const p = products.find(item => item.id === productId);
+      if (p) {
+        selectedProductForDetail = p;
+        navigateTo('product', p);
+      }
+    };
+
+    function renderProductDetailPage(p) {
+      document.getElementById("bcCategory").innerText = p.category;
+      document.getElementById("bcSubCategory").innerText = p.subcategory;
+      document.getElementById("bcProductTitle").innerText = p.title;
+
+      document.getElementById("detailImg").src = p.img;
+      document.getElementById("detailTitle").innerText = p.title;
+      document.getElementById("detailBrand").innerText = p.brand || "VISTAS";
+      document.getElementById("detailPrice").innerText = p.price;
+      document.getElementById("detailOldPrice").innerText = p.oldPrice || (p.price + 100);
+      document.getElementById("detailDiscount").innerText = p.discount || "-33%";
+      quantity = 1;
+      document.getElementById("qtyVal").innerText = quantity;
+    }
+
+    // BUY NOW CHECKOUT MODAL LOGIC
+    const buyNowModal = document.getElementById("buyNowModal");
+    const buyNowBtn = document.getElementById("buyNowBtn");
+    const closeBuyNowModal = document.getElementById("closeBuyNowModal");
+    const buyNowOrderForm = document.getElementById("buyNowOrderForm");
+
+    if (buyNowBtn) {
+      buyNowBtn.addEventListener("click", () => {
+        if (!selectedProductForDetail) return;
+
+        const prod = selectedProductForDetail;
+        const subtotal = prod.price * quantity;
+        const deliveryFee = storeSettings.deliveryFee || 305;
+        const grandTotal = subtotal + deliveryFee;
+
+        document.getElementById("buyNowThumb").src = prod.img;
+        document.getElementById("buyNowProdTitle").innerText = prod.title;
+        document.getElementById("buyNowProdQty").innerText = quantity;
+        document.getElementById("buyNowProdSubtotal").innerText = subtotal;
+        document.getElementById("buyNowBreakdownItem").innerText = subtotal;
+        document.getElementById("buyNowBreakdownDelivery").innerText = deliveryFee;
+        document.getElementById("buyNowBreakdownTotal").innerText = grandTotal;
+
+        document.getElementById("payBankName").innerText = storeSettings.bankName;
+        document.getElementById("payAccNo").innerText = storeSettings.accNo;
+        document.getElementById("payAccName").innerText = storeSettings.accName;
+
+        if (buyNowModal) buyNowModal.classList.remove("hidden");
+      });
+    }
+
+    const buyNowPayment = document.getElementById("buyNowPayment");
+    if (buyNowPayment) {
+      buyNowPayment.addEventListener("change", (e) => {
+        const bankBox = document.getElementById("bankDetailsBox");
+        if (bankBox) {
+          if (e.target.value === "bank") {
+            bankBox.classList.remove("hidden");
+          } else {
+            bankBox.classList.add("hidden");
+          }
+        }
+      });
+    }
+
+    if (closeBuyNowModal && buyNowModal) {
+      closeBuyNowModal.addEventListener("click", () => {
+        buyNowModal.classList.add("hidden");
+      });
+    }
+
+    if (buyNowOrderForm) {
+      buyNowOrderForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const customerName = document.getElementById("buyNowName").value;
+        const phone = document.getElementById("buyNowPhone").value;
+        const address = document.getElementById("buyNowAddress").value;
+
+        alert(`ස්තූතියි ${customerName}!\nඔබගේ ඇණවුම සාර්ථකව භාරගන්නා ලදී.\n\nභාණ්ඩය: ${selectedProductForDetail.title}\nප්‍රමාණය: ${quantity}\nමුළු මුදල: Rs. ${document.getElementById("buyNowBreakdownTotal").innerText}\nලිපිනය: ${address}\nදුරකථන: ${phone}`);
+
+        buyNowOrderForm.reset();
+        if (buyNowModal) buyNowModal.classList.add("hidden");
+      });
+    }
+
+    // Admin Panel Logic
+    function renderAdminPanel() {
+      document.getElementById("adminDeliveryFeeInput").value = storeSettings.deliveryFee;
+      document.getElementById("adminBankName").value = storeSettings.bankName;
+      document.getElementById("adminAccNo").value = storeSettings.accNo;
+      document.getElementById("adminAccName").value = storeSettings.accName;
+
+      // Category options
+      const catSelect = document.getElementById("adminProductCategorySelect");
+      const parentSelect = document.getElementById("parentCatSelect");
+      if (catSelect && parentSelect) {
+        catSelect.innerHTML = "";
+        parentSelect.innerHTML = "";
+
+        categories.forEach(c => {
+          catSelect.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+          parentSelect.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+        });
+      }
+
+      updateSubcategoryDropdown();
+
+      // Product Table
+      const tbody = document.getElementById("adminProductsTbody");
+      if (tbody) {
+        tbody.innerHTML = "";
+        products.forEach(p => {
+          tbody.innerHTML += `
+            <tr class="border-b hover:bg-gray-50">
+              <td class="p-2"><img src="${p.img}" class="w-10 h-10 object-contain rounded border" /></td>
+              <td class="p-2 font-bold">${p.title}</td>
+              <td class="p-2">${p.category}</td>
+              <td class="p-2">${p.subcategory}</td>
+              <td class="p-2 font-bold text-orange-600">Rs. ${p.price}</td>
+              <td class="p-2 space-x-2">
+                <button onclick="editProduct('${p.id}')" class="text-blue-600 hover:underline font-bold">Edit</button>
+                <button onclick="deleteProduct('${p.id}')" class="text-red-600 hover:underline font-bold">Delete</button>
+              </td>
+            </tr>
+          `;
+        });
+      }
+    }
+
+    const saveStoreSettingsBtn = document.getElementById("saveStoreSettingsBtn");
+    if (saveStoreSettingsBtn) {
+      saveStoreSettingsBtn.addEventListener("click", () => {
+        storeSettings.deliveryFee = parseFloat(document.getElementById("adminDeliveryFeeInput").value) || 305;
+        storeSettings.bankName = document.getElementById("adminBankName").value || "Bank";
+        storeSettings.accNo = document.getElementById("adminAccNo").value || "";
+        storeSettings.accName = document.getElementById("adminAccName").value || "";
+
+        localStorage.setItem("vistasStoreSettings", JSON.stringify(storeSettings));
+        document.getElementById("displayDeliveryFee").innerText = storeSettings.deliveryFee;
+        alert("Store & Bank Settings සුරකින ලදී!");
+      });
+    }
+
+    function updateSubcategoryDropdown() {
+      const catSelect = document.getElementById("adminProductCategorySelect");
+      const subSelect = document.getElementById("adminProductSubcategorySelect");
+      if (catSelect && subSelect) {
+        const selectedCatName = catSelect.value;
+        subSelect.innerHTML = "";
+        const cat = categories.find(c => c.name === selectedCatName);
+        if (cat && cat.subs) {
+          cat.subs.forEach(s => {
+            subSelect.innerHTML += `<option value="${s}">${s}</option>`;
+          });
+        }
+      }
+    }
+
+    const adminProductCategorySelect = document.getElementById("adminProductCategorySelect");
+    if (adminProductCategorySelect) adminProductCategorySelect.addEventListener("change", updateSubcategoryDropdown);
+
+    // Save/Add Product
+    const saveProductBtn = document.getElementById("saveProductBtn");
+    if (saveProductBtn) {
+      saveProductBtn.addEventListener("click", () => {
+        const id = document.getElementById("adminEditingProductId").value || `prod_${Date.now()}`;
+        const title = document.getElementById("adminProductTitle").value.trim();
+        const category = document.getElementById("adminProductCategorySelect").value;
+        const subcategory = document.getElementById("adminProductSubcategorySelect").value;
+        const price = parseFloat(document.getElementById("adminPrice").value) || 0;
+        const oldPrice = parseFloat(document.getElementById("adminOldPrice").value) || 0;
+        const discount = document.getElementById("adminDiscount").value || "-33%";
+        const brand = document.getElementById("adminBrand").value || "VISTAS";
+        const img = document.getElementById("adminProductImgUrl").value || "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=600&q=80";
+
+        if (!title || price <= 0) {
+          alert("කරුණාකර භාණ්ඩයේ නම සහ මිල ඇතුළත් කරන්න!");
+          return;
+        }
+
+        const existingIndex = products.findIndex(p => p.id === id);
+        const newProductObj = { id, title, category, subcategory, price, oldPrice, discount, brand, img };
+
+        if (existingIndex >= 0) {
+          products[existingIndex] = newProductObj;
+        } else {
+          products.push(newProductObj);
+        }
+
+        localStorage.setItem("vistasProducts", JSON.stringify(products));
+        resetProductForm();
+        renderAdminPanel();
+        renderHomePage();
+        alert("භාණ්ඩය සාර්ථකව සුරකින ලදී!");
+      });
+    }
+
+    window.editProduct = function(productId) {
+      const p = products.find(item => item.id === productId);
+      if (p) {
+        document.getElementById("adminEditingProductId").value = p.id;
+        document.getElementById("adminProductTitle").value = p.title;
+        document.getElementById("adminProductCategorySelect").value = p.category;
+        updateSubcategoryDropdown();
+        document.getElementById("adminProductSubcategorySelect").value = p.subcategory;
+        document.getElementById("adminPrice").value = p.price;
+        document.getElementById("adminOldPrice").value = p.oldPrice;
+        document.getElementById("adminDiscount").value = p.discount;
+        document.getElementById("adminBrand").value = p.brand;
+        document.getElementById("adminProductImgUrl").value = p.img;
+
+        document.getElementById("adminProductFormHeading").children[0].innerText = "1. Edit Product Details";
+        document.getElementById("resetProductFormBtn").classList.remove("hidden");
+      }
+    };
+
+    window.deleteProduct = function(productId) {
+      if (confirm("ඔබට මෙම භාණ්ඩය ඉවත් කිරීමට අවශ්‍යද?")) {
+        products = products.filter(p => p.id !== productId);
+        localStorage.setItem("vistasProducts", JSON.stringify(products));
+        renderAdminPanel();
+        renderHomePage();
+      }
+    };
+
+    function resetProductForm() {
+      document.getElementById("adminEditingProductId").value = "";
+      document.getElementById("adminProductTitle").value = "";
+      document.getElementById("adminPrice").value = "";
+      document.getElementById("adminOldPrice").value = "";
+      document.getElementById("adminDiscount").value = "";
+      document.getElementById("adminBrand").value = "";
+      document.getElementById("adminProductImgUrl").value = "";
+      document.getElementById("adminProductFormHeading").children[0].innerText = "1. Add New Product";
+      document.getElementById("resetProductFormBtn").classList.add("hidden");
+    }
+
+    const resetProductFormBtn = document.getElementById("resetProductFormBtn");
+    if (resetProductFormBtn) resetProductFormBtn.addEventListener("click", resetProductForm);
+
+    // Add Main Category
+    const addNewCatBtn = document.getElementById("addNewCatBtn");
+    if (addNewCatBtn) {
+      addNewCatBtn.addEventListener("click", () => {
+        const catInput = document.getElementById("newCatName");
+        const name = catInput ? catInput.value.trim() : "";
+        if (name) {
+          categories.push({ name, icon: "fa-tag", subs: [] });
+          localStorage.setItem("vistasCategories", JSON.stringify(categories));
+          if (catInput) catInput.value = "";
+          renderAdminPanel();
+          renderHomePage();
+        }
+      });
+    }
+
+    // Add Subcategory
+    const addNewSubCatBtn = document.getElementById("addNewSubCatBtn");
+    if (addNewSubCatBtn) {
+      addNewSubCatBtn.addEventListener("click", () => {
+        const parentSelect = document.getElementById("parentCatSelect");
+        const subInput = document.getElementById("newSubCatName");
+        const parentName = parentSelect ? parentSelect.value : "";
+        const subName = subInput ? subInput.value.trim() : "";
+        const cat = categories.find(c => c.name === parentName);
+        if (cat && subName) {
+          if (!cat.subs.includes(subName)) cat.subs.push(subName);
+          localStorage.setItem("vistasCategories", JSON.stringify(categories));
+          if (subInput) subInput.value = "";
+          renderAdminPanel();
+          renderHomePage();
+        }
+      });
+    }
+
+    // Image File Reader
+    const imageFileInput = document.getElementById("adminImageFileInput");
+    if (imageFileInput) {
+      imageFileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            const urlInput = document.getElementById("adminProductImgUrl");
+            if (urlInput) urlInput.value = evt.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    // Admin Authentication
+    const adminLoginBtnNav = document.getElementById("adminLoginBtnNav");
+    if (adminLoginBtnNav) adminLoginBtnNav.addEventListener("click", () => navigateTo('admin'));
+    
+    const closeAdminModal = document.getElementById("closeAdminModal");
+    if (closeAdminModal) closeAdminModal.addEventListener("click", () => document.getElementById("adminModal").classList.add("hidden"));
+
+    const adminLoginForm = document.getElementById("adminLoginForm");
+    if (adminLoginForm) {
+      adminLoginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const pwd = document.getElementById("adminPasswordInput").value;
+        if (pwd === "admin123") {
+          isAdminLoggedIn = true;
+          document.getElementById("adminModal").classList.add("hidden");
+          document.getElementById("adminError").classList.add("hidden");
+          navigateTo('admin');
+        } else {
+          document.getElementById("adminError").classList.remove("hidden");
+        }
+      });
+    }
+
+    const adminLogoutBtn = document.getElementById("adminLogoutBtn");
+    if (adminLogoutBtn) {
+      adminLogoutBtn.addEventListener("click", () => {
+        isAdminLoggedIn = false;
+        navigateTo('home');
+      });
+    }
+
+    // Customer Auth Modal
+    const authModal = document.getElementById("authModal");
+    const openAuthBtn = document.getElementById("openAuthBtn");
+    const closeAuthModal = document.getElementById("closeAuthModal");
+    if (openAuthBtn && authModal) openAuthBtn.addEventListener("click", () => authModal.classList.remove("hidden"));
+    if (closeAuthModal && authModal) closeAuthModal.addEventListener("click", () => authModal.classList.add("hidden"));
+
+    const tabSignIn = document.getElementById("tabSignIn");
+    const tabSignUp = document.getElementById("tabSignUp");
+    const signInForm = document.getElementById("signInForm");
+    const signUpForm = document.getElementById("signUpForm");
+
+    if (tabSignIn && tabSignUp && signInForm) {
+      tabSignIn.addEventListener("click", () => {
+        tabSignIn.classList.add("text-orange-600", "border-b-2", "border-orange-600");
+        tabSignUp.classList.remove("text-orange-600", "border-b-2", "border-orange-600");
+        signInForm.classList.remove("hidden");
+        if (signUpForm) signUpForm.classList.add("hidden");
+      });
+
+      tabSignUp.addEventListener("click", () => {
+        tabSignUp.classList.add("text-orange-600", "border-b-2", "border-orange-600");
+        tabSignIn.classList.remove("text-orange-600", "border-b-2", "border-orange-600");
+        if (signUpForm) signUpForm.classList.remove("hidden");
+        signInForm.classList.add("hidden");
+      });
+    }
+
+    if (signInForm && authModal) {
+      signInForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("VISTAS Market වෙත සාර්ථකව Sign In විය!");
+        authModal.classList.add("hidden");
+      });
+    }
+
+    if (signUpForm && authModal) {
+      signUpForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("ගිණුම සාර්ථකව සාදන ලදී!");
+        authModal.classList.add("hidden");
+      });
+    }
+
+    // Quantity Logic
+    const qtyMinus = document.getElementById("qtyMinus");
+    if (qtyMinus) {
+      qtyMinus.addEventListener("click", () => {
+        if (quantity > 1) {
+          quantity--;
+          document.getElementById("qtyVal").innerText = quantity;
+        }
+      });
+    }
+    const qtyPlus = document.getElementById("qtyPlus");
+    if (qtyPlus) {
+      qtyPlus.addEventListener("click", () => {
+        quantity++;
+        document.getElementById("qtyVal").innerText = quantity;
+      });
+    }
+
+    // Cart Drawer Logic
+    const cartDrawer = document.getElementById("cartDrawer");
+    const addToCartBtn = document.getElementById("addToCartBtn");
+    if (addToCartBtn) {
+      addToCartBtn.addEventListener("click", () => {
+        if (selectedProductForDetail) {
+          cartCount += quantity;
+          cartTotal += selectedProductForDetail.price * quantity;
+          document.getElementById("cartBadge").innerText = cartCount;
+          document.getElementById("cartTotal").innerText = cartTotal;
+
+          document.getElementById("cartItems").innerHTML = `
+            <div class="flex justify-between items-center border-b pb-2 text-xs">
+              <div>
+                <p class="font-bold text-gray-800">${selectedProductForDetail.title}</p>
+                <p class="text-gray-500">Qty: ${cartCount} x Rs. ${selectedProductForDetail.price}</p>
+              </div>
+              <span class="font-bold text-orange-600">Rs. ${cartTotal}</span>
+            </div>
+          `;
+          if (cartDrawer) cartDrawer.classList.remove("translate-x-full");
+        }
+      });
+    }
+
+    const cartIconBtn = document.getElementById("cartIconBtn");
+    if (cartIconBtn && cartDrawer) cartIconBtn.addEventListener("click", () => cartDrawer.classList.remove("translate-x-full"));
+
+    const closeCartBtn = document.getElementById("closeCartBtn");
+    if (closeCartBtn && cartDrawer) closeCartBtn.addEventListener("click", () => cartDrawer.classList.add("translate-x-full"));
+
+    // Initial Load
+    if (typeof renderHomePage === 'function') {
+      renderHomePage();
+    }
+  </script>
+</body>
+</html>
